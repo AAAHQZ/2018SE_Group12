@@ -7,15 +7,18 @@ import requests
 
 #爬虫的基类，不同网站的爬虫应继承这个类，重写相应函数。
 class baseCrawler:
-
+    URL= ''
 #构造函数，传入url。
     def __init__(self, url):
-        self.baseUrl = url
+        self.baseURL = url
         return
         
 #获取相应Req。
     def getReq(self):
-        self.r = requests.get(self.baseUrl)
+        if(self.URL== ''):
+            self.r = requests.get(self.baseURL)
+        else:
+            self.r = requests.get(self.URL)
         return self.r
         
 #输出数据
