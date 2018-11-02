@@ -7,7 +7,15 @@ import requests
 
 #爬虫的基类，不同网站的爬虫应继承这个类，重写相应函数。
 class baseCrawler:
+
+    """
+	使用子类继承自baseCralwler类。
+	重写handle()方法，针对不同网站对参数进行处理。
+	重写createParser()方法，针对不同网站对数据进行解析。
+    """
+
     URL= ''
+    
 #构造函数，传入url。
     def __init__(self, url):
         self.baseURL = url
@@ -21,15 +29,19 @@ class baseCrawler:
             self.r = requests.get(self.URL)
         return self.r
         
-#输出数据
+#向屏幕输出信息
     def displayData(self):
         outputData = self.r.text.split('\n')
         for line in outputData:
             print(line.encode(self.r.encoding))
         return
+        
+#封装的SQL操作
+#todo
+    def wrappedSQL(self):
+        pass
      
 #创建一个解析器，子类必须重写该方法。
-#todo
     def createParser(self):
         raise NotImplementedError("Subclass of baseCrawler must provide a handle() method")
     
