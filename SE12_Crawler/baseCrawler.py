@@ -11,7 +11,7 @@ class baseCrawler:
     """
 	使用子类继承自baseCralwler类。
 	重写handle()方法，针对不同网站对参数进行处理。
-	重写createParser()方法，针对不同网站对数据进行解析。
+	重写dataParser()方法，针对不同网站对数据进行解析。
     """
 
     URL= ''
@@ -27,6 +27,7 @@ class baseCrawler:
             self.r = requests.get(self.baseURL)
         else:
             self.r = requests.get(self.URL)
+        self.data = str(self.r.text)
         return self.r
         
 #向屏幕输出信息
@@ -38,15 +39,15 @@ class baseCrawler:
         
 #封装的SQL操作
 #todo
-    def wrappedSQL(self):
+    def SQLop(self):
         pass
      
 #创建一个解析器，子类必须重写该方法。
-    def createParser(self):
+    def dataParser(self):
         raise NotImplementedError("Subclass of baseCrawler must provide a handle() method")
     
 #对参数进行处理，子类必须重写该方法。
-    def handle(self, *args, **option):
+    def handle(self):
         raise NotImplementedError("Subclass of baseCrawler must provide a handle() method")
         
 
@@ -55,5 +56,4 @@ if __name__ == "__main__":
     baidu = baseCrawler(url)
     baidu.getReq()
     baidu.displayData()
-
 

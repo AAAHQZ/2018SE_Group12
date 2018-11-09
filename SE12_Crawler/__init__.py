@@ -13,10 +13,10 @@ class wrappedSQL:
     #构造函数，创建或打开数据库。
     def __init__(self, dbName):
         self.name = dbName
-        self.con =  sqlite3.connect("moviedb.db")
+        self.con =  sqlite3.connect("moviedbtext.db")
         self.cursor = self.con.cursor()
-        try:
-            self.cursor.execute('''CREATE TABLE category (id int primary key, sort int, name  ?)''', self.name)
+        try:#todo
+            self.cursor.execute('''CREATE TABLE text (Title text, BoxOffice text)''',)
             self.con.commit()
             print("create!")
         except sqlite3.OperationalError:
@@ -24,7 +24,8 @@ class wrappedSQL:
             pass
     #插入数据
     def  insData(self, dbList):
-        pass
+        self.cursor.execute(dbList[0],dbList[1])
+        self.con.commit()
         
     #删除数据   
     def delData(self, dbValue):
@@ -32,7 +33,7 @@ class wrappedSQL:
         
     #查询数据
     def selData(self, dbValue):
-        pass
+        return self.cursor.execute(dbValue)
         
     #更新数据
     def updateData(self, dbValue):
