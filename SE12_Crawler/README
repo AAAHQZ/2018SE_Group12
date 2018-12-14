@@ -1,0 +1,15 @@
++-------------+
+|maoyanCrawler|
++-------------+
+一个爬取猫眼票房专业版的电影数据的爬虫
+
+1. 使用指南
+1.1. 运行要求
+1.1.1. Python3
+1.1.2. Requests库
+    pip3 install requests
+2. 测试
+    使用Python3运行maoyanCrawler.py
+    python3 maoyanCrawler.py
+
+    

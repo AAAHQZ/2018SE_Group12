@@ -3,11 +3,11 @@
 
 __author__ = 'Huang "AAA" Quanzhe'
 
-import base64
+# import base64
 import re
 
 # pip3 install fontTools
-from fontTools.ttLib import TTFont
+# from fontTools.ttLib import TTFont
 
 from __init__ import wrappedSQL
 from baseCrawler import baseCrawler
@@ -142,55 +142,55 @@ class maoyanCrawler(baseCrawler):
 
 
 
-class maoyanAntiCrawler:
-    """
-    反击“猫眼电影”网站的反爬虫策略 https://www.freebuf.com/news/140965.html
-    """
-    def __init__(self,resData):
-        self.resData = resData
-        self.GetFont()
-        # 测试
-        # self.ToXML()
-        self.GetList()
-        return
+# class maoyanAntiCrawler:
+#     """
+#     反击“猫眼电影”网站的反爬虫策略 https://www.freebuf.com/news/140965.html
+#     """
+#     def __init__(self,resData):
+#         self.resData = resData
+#         self.GetFont()
+#         # 测试
+#         # self.ToXML()
+#         self.GetList()
+#         return
     
-    def GetFont(self):
-        font = re.findall(r"data:application/font-woff;charset=utf-8;base64,(.*?)\) format",self.resData)
-        # print(font)
-        fontdata=base64.b64decode(font[0])  
-        f=open('./font.woff','wb')  
-        f.write(fontdata)  
-        f.close()  
-        return
+#     def GetFont(self):
+#         font = re.findall(r"data:application/font-woff;charset=utf-8;base64,(.*?)\) format",self.resData)
+#         # print(font)
+#         fontdata=base64.b64decode(font[0])  
+#         f=open('./font.woff','wb')  
+#         f.write(fontdata)  
+#         f.close()  
+#         return
 
-    def ToXML(self):
-        font = TTFont('./font.woff')
-        font.saveXML('./font.xml')
-        return
+#     def ToXML(self):
+#         font = TTFont('./font.woff')
+#         font.saveXML('./font.xml')
+#         return
 
-    def GetList(self):
-        self.font = TTFont('./font.woff')   # 打开文件
-        gly_list = self.font.getGlyphOrder()     # 获取 GlyphOrder 字段的值
-        # for gly in gly_list[2:]:    # 前两个值不是我们要的，切片去掉
-        #    print(gly)
-        return gly_list
+#     def GetList(self):
+#         self.font = TTFont('./font.woff')   # 打开文件
+#         gly_list = self.font.getGlyphOrder()     # 获取 GlyphOrder 字段的值
+#         # for gly in gly_list[2:]:    # 前两个值不是我们要的，切片去掉
+#         #    print(gly)
+#         return gly_list
         
-    def ModifyData(self, data):
-        # print(data)
-        # 获取 GlyphOrder 节点
-        gly_list = self.font.getGlyphOrder()
-        # 前两个不是需要的值，截掉
-        gly_list = gly_list[2:]
-        # 枚举, number是下标，正好对应真实的数字，gly是乱码
-        for number, gly in enumerate(gly_list):
-            # 把 gly 改成网页中的格式
-            gly = gly.replace('uni', '&#x').lower() + ';'
-            # 如果 gly 在字符串中，用对应数字替换
-            if gly in data:
-                data = data.replace(gly, str(number))
-        # 返回替换后的字符串
-        # print(data)
-        return data
+#     def ModifyData(self, data):
+#         # print(data)
+#         # 获取 GlyphOrder 节点
+#         gly_list = self.font.getGlyphOrder()
+#         # 前两个不是需要的值，截掉
+#         gly_list = gly_list[2:]
+#         # 枚举, number是下标，正好对应真实的数字，gly是乱码
+#         for number, gly in enumerate(gly_list):
+#             # 把 gly 改成网页中的格式
+#             gly = gly.replace('uni', '&#x').lower() + ';'
+#             # 如果 gly 在字符串中，用对应数字替换
+#             if gly in data:
+#                 data = data.replace(gly, str(number))
+#         # 返回替换后的字符串
+#         # print(data)
+#         return data
 
 if __name__ == "__main__":
     url = "https://piaofang.maoyan.com"
