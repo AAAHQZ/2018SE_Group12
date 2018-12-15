@@ -3,6 +3,8 @@
 
 __author__ = 'Huang "AAA" Quanzhe'
 
+
+
 # import base64
 import re
 
@@ -12,13 +14,14 @@ import re
 from __init__ import wrappedSQL
 from baseCrawler import baseCrawler
 
+isUnit = 0
 
 class maoyanCrawler(baseCrawler):
     """
     猫眼爬虫
     """ 
     # 测试
-    csvdatas = [['Movie', 'BoxOffice', 'Unit', 'Director', 'Category', 'Date', 'Actor'],]
+    csvdatas = [['name', 'boxoffice', 'Unit', 'Director', 'genre', 'date', 'actor'],]
     urlList = []
     # db = wrappedSQL('movie.db')
     baseHeader = {'User-Agent':'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0',
@@ -112,6 +115,7 @@ class maoyanCrawler(baseCrawler):
             if flag == 1: continue
             
             args['BoxOffice'] = re.findall(r'''<span class="detail-num">(.*?)</span>''', self.newdata)
+            if args['BoxOffice'] == []: continue
             args['BoxOffice'] = args['BoxOffice'][0]
             args['Unit'] = re.findall(r'''<span class="detail-unit">(.*?)</span>''', self.newdata)
             args['Unit'] = args['Unit'][0]
@@ -126,19 +130,27 @@ class maoyanCrawler(baseCrawler):
             actor = re.findall(r"<p class=\"p-item-name ellipsis-1\">(.*)</p>",self.newdata)
             actor = set(actor[1:])
             args['Actor'] = ','.join(actor)
-            
+
+            # 是否进行单位换算
+            if isUnit == 1:
+                if args['Unit'] == u"亿":
+                    num = float(args['BoxOffice'])
+                    num = num*10000
+                    args['BoxOffice'] = str(num)
+                    args['Unit'] = u"万"
             # 测试
             if __name__ == "__main__":    
                 print(args)
             
+
             temp = [args['Movie'], args['BoxOffice'], args['Unit'], args['Director'], args['Category'], args['Date'], args['Actor']]
             self.csvdatas.append(temp)
         return 
 
-    def GetTranslator(self):
-        # 测试
-        self.transfont = maoyanAntiCrawler(self.data)
-        return
+    # def GetTranslator(self):
+    #     # 测试
+    #     self.transfont = maoyanAntiCrawler(self.data)
+    #     return
 
 
 
@@ -193,13 +205,14 @@ class maoyanCrawler(baseCrawler):
 #         return data
 
 if __name__ == "__main__":
+    isUnit = 1
     url = "https://piaofang.maoyan.com"
     maoyan = maoyanCrawler(url)
     maoyan.GetReq()
     # maoyan.DisplayData()
     # maoyan.GetTranslator()
-    for i in range(1):
-        for j in range(3):
+    for i in range(4):
+        for j in range(12):
             year = 2018-i
             month = 12-j
             maoyan.SearchDate(str(year),str(month), '')

@@ -22,6 +22,7 @@ class baseCrawler:
     baseURL = ''
     URL = ''
     # db
+    csvdatas = []
     payload = {}
     header = {}
     baseheader = {}
@@ -37,7 +38,7 @@ class baseCrawler:
         """
         获取相应Req。
         """
-        time.sleep(0.5)
+        time.sleep(0.3)
         if(self.URL== ''):
             self.header = self.baseheader
             self.r = requests.get(self.baseURL, params=self.payload, headers=self.header)
@@ -74,7 +75,7 @@ class baseCrawler:
         将csvdatas写入csv文件
         """
         # filename = "./test.csv"
-        with open(filename, 'w', newline='') as f:
+        with open(filename, 'w', newline='', encoding = 'UTF-8') as f:
             writer = csv.writer(f)
             for row in self.csvdatas:
                 writer.writerow(row)
