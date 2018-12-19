@@ -211,8 +211,8 @@ if __name__ == "__main__":
     maoyan.GetReq()
     # maoyan.DisplayData()
     # maoyan.GetTranslator()
-    for i in range(4):
-        for j in range(12):
+    for i in range(1):
+        for j in range(3):
             year = 2018-i
             month = 12-j
             maoyan.SearchDate(str(year),str(month), '')

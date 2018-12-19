@@ -5,6 +5,12 @@ __author__ = 'Huang "AAA" Quanzhe'
 
 import sqlite3
 
+def dict_factory(cursor, row):
+    d = {}
+    for index, col in enumerate(cursor.description):
+        d[col[0]] = row[index]
+    return d
+
 class wrappedSQL:
     '''
     封装SQL操作的类，使用自带的sqlite3模块。
@@ -16,6 +22,7 @@ class wrappedSQL:
         """
         self.name = dbName
         self.con =  sqlite3.connect(str(dbName))
+        self.con.row_factory = dict_factory
         self.cursor = self.con.cursor()
         try:
             self.cursor.execute('''CREATE TABLE text (Title text, BoxOffice text)''',)
@@ -33,19 +40,20 @@ class wrappedSQL:
         需要传入Title
         """
         try:
+            # Date改成date类型
             self.cursor.execute("CREATE TABLE "+args['Title']+" \
-                (ID       INT PRIMARY KEY AUTOINCREMENT     NOT NULL,\
+                (ID       INTEGER PRIMARY KEY AUTOINCREMENT     NOT NULL,\
                 Movie     TEXT                              NOT NULL,\
                 BoxOffice TEXT                              NOT NULL,\
                 Director  TEXT                              NOT NULL,\
                 Category  TEXT                              NOT NULL,\
                 Actor     TEXT                              NOT NULL,\
-                Date      TEXT                              NOT NULL)")
+                Date      DATE                              NOT NULL)")
             self.con.commit()
             self.cursor.execute("INSERT INTO "+args['Title']+" (ID, Movie, BoxOffice, Director, Category, Actor, Date)\
-                VALUES (0, 'Movie', 'BoxOffice', 'Director', 'Category', 'Actor', 'Date',)")
+                VALUES (0, 'Movie', 'BoxOffice', 'Director', 'Category', 'Actor', 'Date')")
             print("create!")
-        except:
+        except sqlite3.OperationalError:
             print("existed!")
         return
 
@@ -56,7 +64,7 @@ class wrappedSQL:
         """
         self.cursor.execute("INSERT INTO "+args['Title']+" (Movie, BoxOffice, Director, Category, Actor, Date)\
             VALUES (?, ?, ?, ?, ?, ?)",
-            (args['Movie'], args['BoxOffice'], args['Director'], args['Category'], args['Actor'], args['Date']))
+            (args['Movie'], args['BoxOffice'], args['Director'], args['Category'], args['Actor'], args['Date'],))
         self.con.commit()
         return
         
@@ -74,11 +82,10 @@ class wrappedSQL:
     def SelData(self, **args):
         """
         #查询数据
-        #需要传入Title, Key, Value
+        #需要传入Title, Value
         """
         value = self.cursor.execute("SELECT * FROM "+args['Title']+
-        " WHERE "+args['Key']+" = ?",
-            (args['Value'],))
+        " WHERE "+args['Value'])
         return value 
         
     def UpdateData(self, **args):
@@ -102,7 +109,6 @@ class wrappedSQL:
     
     def test(self):
         self.cursor.execute('PRAGMA table_info try')
-        
 
 
 if __name__ == "__main__":
@@ -116,7 +122,7 @@ if __name__ == "__main__":
             Director="AAA", 
             Category="教育片",
             Actor="A, B, C",
-            Date="16/1/2")
+            Date="16-1-2")
         db.InsData(Title="try", 
             # ID="2", 
             Movie="second", 
@@ -124,12 +130,11 @@ if __name__ == "__main__":
             Director="AAA", 
             Category="记录片", 
             Actor="A, B, C, D",
-            Date="16/2/3")    
+            Date="16-2-3")    
     except sqlite3.IntegrityError:
         print("existed!")
     item = db.SelData(Title="try", 
-        Key="ID",
-        Value="1")
+        Value="ID = 1")
     for col in item:
         print(col)
     db.CloseDB()
