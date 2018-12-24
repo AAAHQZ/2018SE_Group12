@@ -19,13 +19,14 @@ def pick_data(year,num):
     print(lst)
     dicted = {}
     for item in lst:
-        dicted[item["Movie"]] = item["BoxOffice"]
-    L = sorted(dicted.items(), key=lambda item:item[1])
-    print(L)
+        dicted[item["Movie"]] = float(item["BoxOffice"])
+    L = sorted(dicted.items(), key=lambda item:item[1], reverse=True)
+    # print(L)
     data = []
     for i in range(num):
+        print(L[i][0])
         data.append(L[i][0])
-    db.CloseDB()
+    db.CloseDB() 
     return data
 
 

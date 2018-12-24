@@ -3,6 +3,7 @@ import  numpy as np
 import  pandas as pd
 import  matplotlib.pyplot as plt
 from pyecharts import Bar
+from collections import Counter
 from SE12_Crawler import *
 
 #解决中文显示问题
@@ -22,33 +23,32 @@ def draw_top_actor(year, number):
     actor_names = []
     for item in lst:
         temp = item['Actor'].split(',')
-        print(temp)
+        # print(temp)
         if temp == ['']: 
             continue
         actor_names.extend(item['Actor'].split(','))
-    actor_names = set(actor_names)
+    actor_names_set = set(actor_names)
     # print(actor_names)
     # 新建字典，按照出演数量排序
     
     dicted = {}
-    for actor in actor_names:
+    for actor in actor_names_set:
         dicted[actor] = 0
-    for item in lst:
-        for actor in actor_names:
-            if actor in item["Actor"]:
-                dicted[actor] = dicted[actor]+1
+    L = Counter(actor_names)
+    # print(L)
+    for i,j in L.items():
+        dicted[i] = j
     L = sorted(dicted.items(), key=lambda item:item[1], reverse=True)
 
     # print(L)
     names = []
     cnt = []
     for item in L:
-        print(item[0],item[1])
         names.append(item[0])
         cnt.append(item[1])
-        if(len(names) == int(number)):
+        # print(names,cnt)
+        if(len(names)==int(number)):
             break
-    
     bar = Bar("劳模演员",width=600,height=450)
     bar.add("%s,%d" % (year,number),names,cnt,mark_point=["max","min"])
     bar.render(path="Top_actor.html")
