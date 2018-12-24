@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyecharts import Pie
 from pylab import mpl
+from SE12_Crawler import *
 
 # 解决中文显示问题
 # plt.rcParams['font.sans-serif'] = ['SimHei']
@@ -18,6 +19,7 @@ def pie(year, season):
     '''绘制第year年第season季度的票房占比饼状图'''
     # 定义全局变量
     # global df, df2
+    db = wrappedSQL("movie.db")
     year1 = str(year)
     season1 = int(season)
     lst = []
@@ -50,7 +52,8 @@ def pie(year, season):
     genres_boxoffice = {}
     for item in lst:
         genres.extend(item['Category'].split(','))
-    genres = set(genre)
+    genres = set(genres)
+
 
     for genre in genres:
         genres_boxoffice[genre] = 0
@@ -58,14 +61,19 @@ def pie(year, season):
     for item in lst:
         for genre in genres:
             if genre in item['Category']:
-                genres_boxoffice[genre] = genres_boxoffice[genre] + item['BoxOffice']
+                genres_boxoffice[genre] = genres_boxoffice[genre] + float(item['BoxOffice'])
 
     a1 = []
     a2 = []
 
+    sorted(genres_boxoffice.items(), key=lambda item:item[1])
+    if __name__ == "__main__":
+        print(genres_boxoffice)
+
     for name,box in genres_boxoffice.items():
         a1.append(name)
         a2.append(box)
+
     # 定义列表a来储存不同类型电影的票房
     # a = [0, 0, 0, 0, 0]
     # 定义列表genres来储存电影的类型名称
@@ -107,9 +115,10 @@ def pie(year, season):
     # print(a1)
     # print(a2)
     image=Pie("test",width=500,height=300)
-    image.add("",a1,a2,is_label_show=True)
+    image.add("",a1[:7],a2[:7],is_label_show=True)
     image.render("Pie.html")
     image.render(path="Pie.png")
+    db.CloseDB()
     # print(df2)
     # # 其中autopct用于在饼状图内部显示票房占比数字，explode用于使饼状图各块突出显示
     # plt.pie(df2['box'], labels=df2['name'], autopct='%2.0f%%', explode=[0.05] * len(boxs))
@@ -120,4 +129,4 @@ def pie(year, season):
     # plt.show()
 
 
-pie(2018, 1)
+pie(2017, 4)
