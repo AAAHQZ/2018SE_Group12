@@ -22,14 +22,8 @@ class wrappedSQL:
         self.name = dbName
         self.con =  sqlite3.connect(str(dbName))
         self.con.row_factory = dict_factory
+        self.con.text_factory = str 
         self.cursor = self.con.cursor()
-        try:
-            self.cursor.execute('''CREATE TABLE text (Title text, BoxOffice text)''',)
-            self.con.commit()
-            print("create!")
-        except sqlite3.OperationalError:
-       	    print("open!")
-            pass
     
     #创建表 
     #需要传入Title
@@ -42,7 +36,7 @@ class wrappedSQL:
             # Date改成date类型
             self.cursor.execute("CREATE TABLE "+args['Title']+" \
                 (ID       INTEGER PRIMARY KEY AUTOINCREMENT     NOT NULL,\
-                Movie     TEXT                              NOT NULL,\
+                Movie     TEXT                                NOT NULL,\
                 BoxOffice TEXT                              NOT NULL,\
                 Director  TEXT                              NOT NULL,\
                 Category  TEXT                              NOT NULL,\
@@ -83,18 +77,20 @@ class wrappedSQL:
         #查询数据
         #需要传入Title, Value
         """
-        value = self.cursor.execute("SELECT * FROM "+args['Title']+
-        " WHERE "+args['Value'])
-        return value 
-        
+        try:
+            value = self.cursor.execute("SELECT * FROM "+args['Title']+
+                " WHERE "+args['Value'])
+            return self.cursor.fetchall() 
+        except sqlite3.OperationalError:
+            return []
+
     def UpdateData(self, **args):
         """
         #更新数据
         #需要传入Title, Data, NewData, Key, Value
         """
-        self.cursor.execute("UPDATE "+args['Title']+" SET "+args['Data']+" = ? \
-            WHERE "+args['Key']+" = ?",
-            (args['NewData'], args['Value']))
+        self.cursor.execute("UPDATE "+args['Title']+" SET "+args['Data']+" = "+args['NewData']+ \
+            " WHERE "+args['Value'])
         self.con.commit()
         return 
         
@@ -109,6 +105,10 @@ class wrappedSQL:
     def test(self):
         self.cursor.execute('PRAGMA table_info try')
 
+    def execute(self, value):
+        temp = self.cursor.execute(value)
+        self.con.commit()
+        return temp
 
 if __name__ == "__main__":
     db = wrappedSQL('text.db')
@@ -134,6 +134,7 @@ if __name__ == "__main__":
         print("existed!")
     item = db.SelData(Title="try", 
         Value="ID = 1")
+    print(item)
     for col in item:
         print(col)
     db.CloseDB()

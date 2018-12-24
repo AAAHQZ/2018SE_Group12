@@ -10,7 +10,7 @@ import re
 # pip3 install fontTools
 # from fontTools.ttLib import TTFont
 
-from __init__ import wrappedSQL
+import __init__
 from baseCrawler import baseCrawler
 
 isUnit = 0
@@ -146,75 +146,100 @@ class maoyanCrawler(baseCrawler):
             self.csvdatas.append(temp)
         return 
 
-    # def GetTranslator(self):
-    #     # 测试
-    #     self.transfont = maoyanAntiCrawler(self.data)
-    #     return
+        def ToCsv(self, filename):
+            """
+            将csvdatas写入csv文件
+            """
+            # filename = "./test.csv"
+            with open(filename, 'w', newline='', encoding = 'UTF-8') as f:
+                writer = csv.writer(f)
+                for row in self.csvdatas:
+                    writer.writerow(row)
+            return
 
+    def ToSql(self):
+        def insert():
+            temp = self.csvdatas.pop(1)
+            # if __name__ == "__main__":
+                # print(temp)
+            tempvalue = "Movie = '"+ temp[0] +"'"
+            print(tempvalue)
+            sel = self.db.SelData(Title=self.table,Value=tempvalue)
+            if sel == []:
+                self.db.InsData(Title=self.table,
+                    Movie=str(temp[0]), 
+                    BoxOffice=str(temp[1]),
+                    Director=str(temp[3]), 
+                    Category=str(temp[4]),
+                    Actor=str(temp[6]),
+                    Date=str(temp[5])[0:10])
+            else:
+                # print(sel)
+                self.db.UpdateData(Title=self.table,
+                    Data='BoxOffice',
+                    NewData=temp[1],
+                    Value=tempvalue)
 
+            return
 
-# class maoyanAntiCrawler:
-#     """
-#     反击“猫眼电影”网站的反爬虫策略 https://www.freebuf.com/news/140965.html
-#     """
-#     def __init__(self,resData):
-#         self.resData = resData
-#         self.GetFont()
-#         # 测试
-#         # self.ToXML()
-#         self.GetList()
-#         return
+        while len(self.csvdatas)>1:
+            insert()
+        return
+ 
+    def InitSql(self, dbname, table):
+        self.table = table
+        self.db = __init__.wrappedSQL(dbname)
+        self.db.CreateTable(Title=self.table)
+        return
     
-#     def GetFont(self):
-#         font = re.findall(r"data:application/font-woff;charset=utf-8;base64,(.*?)\) format",self.resData)
-#         # print(font)
-#         fontdata=base64.b64decode(font[0])  
-#         f=open('./font.woff','wb')  
-#         f.write(fontdata)  
-#         f.close()  
-#         return
+    def printSql(self):
+        temp = self.db.execute("UPDATE data SET BoxOffice = 12.60 WHERE Movie = '无双'")
+        for col in temp:
+            print(col)
 
-#     def ToXML(self):
-#         font = TTFont('./font.woff')
-#         font.saveXML('./font.xml')
-#         return
-
-#     def GetList(self):
-#         self.font = TTFont('./font.woff')   # 打开文件
-#         gly_list = self.font.getGlyphOrder()     # 获取 GlyphOrder 字段的值
-#         # for gly in gly_list[2:]:    # 前两个值不是我们要的，切片去掉
-#         #    print(gly)
-#         return gly_list
-        
-#     def ModifyData(self, data):
-#         # print(data)
-#         # 获取 GlyphOrder 节点
-#         gly_list = self.font.getGlyphOrder()
-#         # 前两个不是需要的值，截掉
-#         gly_list = gly_list[2:]
-#         # 枚举, number是下标，正好对应真实的数字，gly是乱码
-#         for number, gly in enumerate(gly_list):
-#             # 把 gly 改成网页中的格式
-#             gly = gly.replace('uni', '&#x').lower() + ';'
-#             # 如果 gly 在字符串中，用对应数字替换
-#             if gly in data:
-#                 data = data.replace(gly, str(number))
-#         # 返回替换后的字符串
-#         # print(data)
-#         return data
-
-if __name__ == "__main__":
+def MovieCrawler(fromYear, fromMonth, toYear, toMonth):
     isUnit = 1
     url = "https://piaofang.maoyan.com"
     maoyan = maoyanCrawler(url)
+    maoyan.InitSql('movie.db', 'data')
     maoyan.GetReq()
-    # maoyan.DisplayData()
-    # maoyan.GetTranslator()
-    for i in range(1):
-        for j in range(3):
-            year = 2018-i
-            month = 12-j
-            maoyan.SearchDate(str(year),str(month), '')
+    yearNum = abs(toYear - fromYear)
+    # monthNum = (toMonth - fromMonth)
+    month = toMonth
+    for y in range(yearNum+1):
+        year = toYear - y
+        while month >= 1:
+            maoyan.SearchDate(str(year),str(month),'')
             maoyan.UrlParser()
             maoyan.DataParser()
-    maoyan.ToCsv("./test.csv")
+            if (year==fromYear and month==fromMonth):
+                print("INS~~~")
+                maoyan.ToSql()
+                maoyan.printSql()
+                return
+            month = month - 1
+        month = 12
+    return
+
+if __name__ == "__main__":
+    MovieCrawler(2014, 1, 2018, 12)
+    # url = "https://piaofang.maoyan.com"
+    # maoyan = maoyanCrawler(url)
+    # maoyan.InitSql('movie.db', 'data')
+    # maoyan.printSql()
+
+
+    # isUnit = 1
+    # url = "https://piaofang.maoyan.com"
+    # maoyan = maoyanCrawler(url)
+    # maoyan.GetReq()
+    # # maoyan.DisplayData()
+    # # maoyan.GetTranslator()
+    # for i in range(1):
+    #     for j in range(3):
+    #         year = 2018-i
+    #         month = 12-j
+    #         maoyan.SearchDate(str(year),str(month), '')
+    #         maoyan.UrlParser()
+    #         maoyan.DataParser()
+    # maoyan.ToCsv("./test.csv")

@@ -9,6 +9,7 @@ import time
 # pip install requests
 import requests
 
+import __init__
 
 class baseCrawler:
 
@@ -37,7 +38,7 @@ class baseCrawler:
         """
         获取相应Req。
         """
-        time.sleep(0.3)
+        # time.sleep(0.1)
         if(self.URL== ''):
             self.header = self.baseheader
             self.r = requests.get(self.baseURL, params=self.payload, headers=self.header)
@@ -61,24 +62,24 @@ class baseCrawler:
         """
         创建一个解析器，子类必须重写该方法。
         """
-        raise NotImplementedError("Subclass of baseCrawler must provide a handle() method")
+        raise NotImplementedError("Subclass of baseCrawler must provide a DataParser() method")
     
     def Handle(self, argc,  *argv):
         """
         对参数进行处理，子类必须重写该方法。
         """
-        raise NotImplementedError("Subclass of baseCrawler must provide a handle() method")
+        raise NotImplementedError("Subclass of baseCrawler must provide a Handle() method")
         
     def ToCsv(self, filename):
-        """
-        将csvdatas写入csv文件
-        """
-        # filename = "./test.csv"
-        with open(filename, 'w', newline='', encoding = 'UTF-8') as f:
-            writer = csv.writer(f)
-            for row in self.csvdatas:
-                writer.writerow(row)
-        return
+        raise NotImplementedError("Subclass of baseCrawler must provide a ToCsv() method")
+
+    def ToSql(self):
+        raise NotImplementedError("Subclass of baseCrawler must provide a ToSql() method")
+
+    def InitSql(self, dbname, table):
+        raise NotImplementedError("Subclass of baseCrawler must provide a InitSql() method")
+
+
 
 if __name__ == "__main__":
     url = "http://www.baidu.com"
