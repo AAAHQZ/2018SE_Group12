@@ -13,13 +13,14 @@ import re
 from .baseCrawler import baseCrawler
 from .wrappedSQL import wrappedSQL
 
-isUnit = 0
+
 
 class maoyanCrawler(baseCrawler):
     """
     猫眼爬虫
     """ 
     # 测试
+    isUnit = 1
     csvdatas = [['name', 'boxoffice', 'Unit', 'Director', 'genre', 'date', 'actor'],]
     urlList = []
     # db = wrappedSQL('movie.db')
@@ -131,12 +132,14 @@ class maoyanCrawler(baseCrawler):
             args['Actor'] = ','.join(actor)
 
             # 是否进行单位换算
-            if isUnit == 1:
-                if args['Unit'] == u"亿":
+            if self.isUnit == 1:
+                print(args['Unit'])
+                if args['Unit'] == "亿":
                     num = float(args['BoxOffice'])
                     num = num*10000
                     args['BoxOffice'] = str(num)
-                    args['Unit'] = u"万"
+                    args['Unit'] = "万"
+                    print(args['Movie'],args['BoxOffice'])
             # 测试
             if __name__ == "__main__":    
                 print(args)
@@ -188,7 +191,7 @@ class maoyanCrawler(baseCrawler):
  
     def InitSql(self, dbname, table):
         self.table = table
-        self.db = __init__.wrappedSQL(dbname)
+        self.db = wrappedSQL(dbname)
         self.db.CreateTable(Title=self.table)
         return
     
@@ -222,7 +225,7 @@ def MovieCrawler(fromYear, fromMonth, toYear, toMonth):
     return 1
 
 if __name__ == "__main__":
-    MovieCrawler(2014, 1, 2018, 12)
+    MovieCrawler(2018, 2, 2018, 2)
     # url = "https://piaofang.maoyan.com"
     # maoyan = maoyanCrawler(url)
     # maoyan.InitSql('movie.db', 'data')
