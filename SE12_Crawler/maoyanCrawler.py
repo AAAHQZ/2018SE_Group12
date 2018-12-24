@@ -133,20 +133,17 @@ class maoyanCrawler(baseCrawler):
 
             # 是否进行单位换算
             if self.isUnit == 1:
-                print(args['Unit'])
                 if args['Unit'] == "亿":
                     num = float(args['BoxOffice'])
                     num = num*10000
                     args['BoxOffice'] = str(num)
                     args['Unit'] = "万"
-                    print(args['Movie'],args['BoxOffice'])
             # 测试
-            if __name__ == "__main__":    
-                print(args)
             
 
             temp = [args['Movie'], args['BoxOffice'], args['Unit'], args['Director'], args['Category'], args['Date'], args['Actor']]
             self.csvdatas.append(temp)
+            print(temp)
         return 
 
         def ToCsv(self, filename):

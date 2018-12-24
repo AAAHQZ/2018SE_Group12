@@ -18,7 +18,7 @@ def Straight(year, season):
     year1 = str(year)
     season1 = int(season)
 
-    db = wrappedSQL("movie.db")
+    db = wrappedSQL("./SE12_Crawler/movie.db")
     year1 = str(year)
     season1 = int(season)
     lst = []

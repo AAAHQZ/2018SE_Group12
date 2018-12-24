@@ -23,6 +23,7 @@ def draw_top_actor(year, number):
     for item in lst:
         actor_names.extend(item['Actor'].split(','))
     actor_names = set(actor_names)
+    print(actor_names)
     # 新建字典，按照出演数量排序
     
     dicted = {}
@@ -63,4 +64,4 @@ def draw_top_actor(year, number):
 
 if __name__ == '__main__':
 
-    draw_top_actor(2017, 5)
+    draw_top_actor(2018, 5)
