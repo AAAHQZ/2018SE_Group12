@@ -12,7 +12,7 @@ plt.rcParams['font.sans-serif']=['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
 def line(a,b,c):
-    db = wrappedSQL("./SE12_Crawler/movie.db")
+    db = wrappedSQL("movie.db")
     year1=str(a)
     year2=str(b)
     year3=str(c)

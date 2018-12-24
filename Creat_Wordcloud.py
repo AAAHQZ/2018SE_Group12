@@ -11,7 +11,7 @@ from SE12_Crawler import *
 def pick_data(year,num):
     year1 = str(year)
     # 读入文件
-    db = wrappedSQL("./SE12_Crawler/movie.db")
+    db = wrappedSQL("movie.db")
     # 选择用户需要的年份
     lst = []
     dateValue = "Date like '"+year1+"%'"

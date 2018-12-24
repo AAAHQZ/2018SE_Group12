@@ -15,7 +15,7 @@ plt.rcParams['axes.unicode_minus'] = False
 def pie(year, season):
     '''绘制第year年第season季度的票房占比饼状图'''
     # 定义全局变量
-    db = wrappedSQL("./SE12_Crawler/movie.db")
+    db = wrappedSQL("movie.db")
     year1 = str(year)
     season1 = int(season)
     lst = []

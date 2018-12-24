@@ -13,7 +13,7 @@ plt.rcParams['axes.unicode_minus'] = False
 def draw_top_actor(year, number):
     year1 = str(year)
     # 读入文件
-    db = wrappedSQL("./SE12_Crawler/movie.db")
+    db = wrappedSQL("movie.db")
     # 选择用户需要的年份
     lst = []
     dateValue = "Date like '"+year1+"%'"
@@ -21,9 +21,13 @@ def draw_top_actor(year, number):
     # 从文件中读取演员信息
     actor_names = []
     for item in lst:
+        temp = item['Actor'].split(',')
+        print(temp)
+        if temp == ['']: 
+            continue
         actor_names.extend(item['Actor'].split(','))
     actor_names = set(actor_names)
-    print(actor_names)
+    # print(actor_names)
     # 新建字典，按照出演数量排序
     
     dicted = {}
@@ -35,7 +39,7 @@ def draw_top_actor(year, number):
                 dicted[actor] = dicted[actor]+1
     L = sorted(dicted.items(), key=lambda item:item[1], reverse=True)
 
-    print(L)
+    # print(L)
     names = []
     cnt = []
     for item in L:
