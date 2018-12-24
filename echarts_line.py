@@ -7,7 +7,6 @@ from pylab import mpl
 
 from SE12_Crawler import *
 
-db = wrappedSQL("movie.db")
 
 #解决中文显示问题
 # plt.rcParams['font.sans-serif']=['SimHei']
@@ -22,6 +21,7 @@ db = wrappedSQL("movie.db")
 # month=[val[6:8] for val in b]
 
 def line(a,b,c):
+    db = wrappedSQL("movie.db")
     year1=str(a)
     year2=str(b)
     year3=str(c)
@@ -83,6 +83,7 @@ def line(a,b,c):
     line.add("%s" % year2, columns, total_boxoffice2, mark_point=["max", "min"],is_smooth=True)
     line.add("%s" % year3, columns, total_boxoffice3, mark_point=["max", "min"],is_smooth=True)
     line.render(path="./Line.png")
+    db.CloseDB()
     #i = range(1, 13)
     # print(totalboxoffice1)
     # plt.title("折线图")
