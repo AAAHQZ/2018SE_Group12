@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import
+from .maoyanCrawler import MovieCrawler
+from .wrappedSQL import wrappedSQL
 
 __author__ = 'Huang "AAA" Quanzhe'
-__all__  = ["maoyanCrawler", "wrappedSQL"]
+__all__  = ["MovieCrawler", "wrappedSQL"]
 
 
