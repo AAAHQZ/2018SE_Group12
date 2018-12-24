@@ -11,7 +11,8 @@ def pick_data(year,num):
     global df,df2                                          #选指定年份的数据
     df2=df[df['date'].str.contains(a)]
     df2=df2.sort_values(['boxoffice'],ascending=False)                      #找对应的票房
-    data=df2.iloc[0:num]['name'].values                               #找票房的前三位或者前几位
+    data=df2.iloc[0:num]['name'].values  
+    print(data)                             #找票房的前三位或者前几位
     return data
 
 

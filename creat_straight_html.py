@@ -1,20 +1,23 @@
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from pyecharts import Pie
-from pylab import mpl
+import  numpy as np
+import  pandas as pd
+import  matplotlib.pyplot as plt
+from pyecharts import Bar
 from SE12_Crawler import *
 
 # 解决中文显示问题
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
+# 读取中文数据文件
 
 
 # 饼状图
-def pie(year, season):
+def Straight(year, season):
     '''绘制第year年第season季度的票房占比饼状图'''
     # 定义全局变量
+    year1 = str(year)
+    season1 = int(season)
+
     db = wrappedSQL("movie.db")
     year1 = str(year)
     season1 = int(season)
@@ -55,21 +58,31 @@ def pie(year, season):
     names = []
     boxs = []
 
-    sorted(genres_boxoffice.items(), key=lambda item:item[1], reverse=True)
+    sorted(genres_boxoffice.items(), key=lambda item:item[1])
     if __name__ == "__main__":
         print(genres_boxoffice)
 
     for name,box in genres_boxoffice.items():
         names.append(name)
         boxs.append(box)
-    image=Pie("票房占比",width=600,height=450)
-    image.add("",names,boxs,is_label_show=True)
-    image.render("Pie.html")
+    bar=Bar("票房份额",width=600,height=450)
 
-    plt.pie(boxs, labels=names, autopct='%2.0f%%', explode = [0.05]*len(boxs))
-    plt.title( year1 + '年第' + str(season) + '季度各类型电影票房占比饼状图')
-    plt.savefig('Pie.jpg')
+    bar.add("%s,%d" % (year1,season1),names,boxs,mark_point=["max","min"])
+    bar.render("Straight.html")
+    #bar.render(path="straight.png")
+
+    plt.xticks(np.arange(len(names)),names)
+    plt.ylabel('电影票房')
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, -0.03), fancybox=True, ncol=5)
+    plt.title( year1 + '年第' + str(season) + '季度各类型电影票房直方图')
+    rects = plt.bar(names, boxs, width = 0.3, bottom = None, align = 'center')
+    #在直方图上显示数字
+    for rect in rects:
+        height = rect.get_height()
+        plt.text(rect.get_x()+rect.get_width()/2., 1.03*height, '%s' % int(height))
+
+    plt.savefig('Stright.jpg')
     plt.close()
 
 if __name__ == "__main__":
-    pie(2018, 1)
+    Straight(2017,1)
