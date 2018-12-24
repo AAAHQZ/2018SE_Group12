@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 __author__ = 'Huang "AAA" Quanzhe'
+__all__  = ["MovieCrawler"]
+
 
 import sqlite3
 
