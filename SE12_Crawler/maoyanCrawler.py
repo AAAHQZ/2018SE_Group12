@@ -10,7 +10,8 @@ import re
 # pip3 install fontTools
 # from fontTools.ttLib import TTFont
 
-from baseCrawler import baseCrawler
+from .baseCrawler import baseCrawler
+from .wrappedSQL import wrappedSQL
 
 isUnit = 0
 
@@ -218,7 +219,7 @@ def MovieCrawler(fromYear, fromMonth, toYear, toMonth):
                 return
             month = month - 1
         month = 12
-    return
+    return 1
 
 if __name__ == "__main__":
     MovieCrawler(2014, 1, 2018, 12)
