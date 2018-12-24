@@ -10,7 +10,7 @@ import re
 # pip3 install fontTools
 # from fontTools.ttLib import TTFont
 
-import __init__
+import wrappedSQL
 from baseCrawler import baseCrawler
 
 isUnit = 0

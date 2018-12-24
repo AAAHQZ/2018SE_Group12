@@ -4,20 +4,18 @@ import matplotlib.pyplot as plt
 from pyecharts import Pie
 from pylab import mpl
 import pdfkit
+from SE12_Crawler import *
+
 # 解决中文显示问题
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 
-# 读取中文数据文件
-data = pd.read_csv('Movies.csv')
-df = pd.read_csv('Movies.csv')
 
 
 # 饼状图
 def pie(year, season):
     '''绘制第year年第season季度的票房占比饼状图'''
     # 定义全局变量
-    global df, df2
     year1 = str(year)
     season1 = int(season)
 

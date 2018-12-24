@@ -9,7 +9,7 @@ import time
 # pip install requests
 import requests
 
-import __init__
+import wrappedSQL
 
 class baseCrawler:
 
