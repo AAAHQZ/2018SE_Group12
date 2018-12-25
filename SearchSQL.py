@@ -27,12 +27,12 @@ def SearchSQL(name):
             str4 = '分类：'+item['Category']
             str5 = '演员：'+item['Actor']
             msg.extend([[str0,str1,str2,str3,str4,str5]])
-    else:
-        lst = SearchActor(name)
-        for item in lst:
-            msg.append([item['Movie']])
+    # else:
+    #     lst = SearchActor(name)
+    #     for item in lst:
+    #         msg.append([item['Movie']])
     return msg
 
 
 if __name__ == "__main__":
-    print(SearchSQL('吴京'))
+    print(SearchSQL('战狼'))

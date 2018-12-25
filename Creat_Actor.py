@@ -40,7 +40,7 @@ def draw_top_actor(year, number):
         dicted[i] = j
     L = sorted(dicted.items(), key=lambda item:item[1], reverse=True)
 
-    # print(L)
+    print(L)
     names = []
     cnt = []
     for item in L:
@@ -68,4 +68,4 @@ def draw_top_actor(year, number):
 
 if __name__ == '__main__':
 
-    draw_top_actor(2018, 5)
+    draw_top_actor(2017, 5)

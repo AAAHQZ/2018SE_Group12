@@ -141,7 +141,7 @@ class maoyanCrawler(baseCrawler):
             # 测试
             
 
-            temp = [args['Movie'], args['BoxOffice'], args['Unit'], args['Director'], args['Category'], args['Date'], args['Actor']]
+            temp = [args['Movie'], int(float(args['BoxOffice'])), args['Unit'], args['Director'], args['Category'], args['Date'], args['Actor']]
             self.csvdatas.append(temp)
             print(temp)
         return 
