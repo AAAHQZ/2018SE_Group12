@@ -2,17 +2,13 @@
 
 __author__ = 'Huang "AAA" Quanzhe'
 
-import csv
 import sys
 import time
-
 # pip install requests
 import requests
 
-from .wrappedSQL import wrappedSQL
 
 class baseCrawler:
-
     """
     爬虫的基类，不同网站的爬虫应继承这个类，重写相应函数。
 	使用子类继承自baseCralwler类。
@@ -21,7 +17,6 @@ class baseCrawler:
     """
     baseURL = ''
     URL = ''
-    # db
     csvdatas = []
     payload = {}
     header = {}
@@ -71,15 +66,22 @@ class baseCrawler:
         raise NotImplementedError("Subclass of baseCrawler must provide a Handle() method")
         
     def ToCsv(self, filename):
+        """
+        生成csv文件，子类应根据实际需求选择是否重写该方法。
+        """
         raise NotImplementedError("Subclass of baseCrawler must provide a ToCsv() method")
 
     def ToSql(self):
+        """
+        写入数据库，子类应根据实际需求选择是否重写该方法。
+        """
         raise NotImplementedError("Subclass of baseCrawler must provide a ToSql() method")
 
     def InitSql(self, dbname, table):
+        """
+        初始化数据库，子类应根据实际需求选择是否重写该方法。
+        """
         raise NotImplementedError("Subclass of baseCrawler must provide a InitSql() method")
-
-
 
 if __name__ == "__main__":
     url = "http://www.baidu.com"

@@ -1,14 +1,14 @@
-from os import path
-import  numpy as np
+# from os import path
+# import  numpy as np
 #import  pandas as pd
-import  matplotlib.pyplot as plt
+# import  matplotlib.pyplot as plt
 from pyecharts import Bar
 from collections import Counter
 from SE12_Crawler import *
 
 #解决中文显示问题
-plt.rcParams['font.sans-serif']=['SimHei']
-plt.rcParams['axes.unicode_minus'] = False
+# plt.rcParams['font.sans-serif']=['SimHei']
+# plt.rcParams['axes.unicode_minus'] = False
 
 # 绘制劳模演员
 def draw_top_actor(year, number):

@@ -48,7 +48,8 @@ def draw_wordcloud(data,num):
     wordcloud.add('wordcloud', keylist, valuelist, word_size_range=[13*(20/num)**0.5,26*(1+0.02*num)*(20/num)**0.5],rotate_step=36.4)
     wordcloud.render("Wordcloud.html")
 
-
+def WordCloud():
+    pass
 
 if __name__ == '__main__':
     data = pick_data(2016, 10)
