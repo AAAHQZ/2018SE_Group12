@@ -86,7 +86,7 @@ class maoyanCrawler(baseCrawler):
         根据urlList获取电影数据
         """
         # 正式版需要修改title
-        args={'title':"try",
+        args={'title':"data",
         'Movie':"", 
         'BoxOffice':"", 
         'Unit':"",
@@ -157,7 +157,7 @@ class maoyanCrawler(baseCrawler):
                     writer.writerow(row)
             return
 
-    def ToSql(self):
+    def ToSql(self): 
         def insert():
             temp = self.csvdatas.pop(1)
             # if __name__ == "__main__":
@@ -216,10 +216,10 @@ def MovieCrawler(fromYear, fromMonth, toYear, toMonth):
                 print("INS~~~")
                 maoyan.ToSql()
                 maoyan.printSql()
-                return 1
+                return
             month = month - 1
         month = 12
-    return 0
+    return 1
 
 if __name__ == "__main__":
     MovieCrawler(2018, 2, 2018, 2)
