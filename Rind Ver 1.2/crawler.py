@@ -1,3 +1,4 @@
+# 爬虫
 from PyQt5 import QtCore, QtGui, QtWidgets
 from SE12_Crawler import *
 #import time

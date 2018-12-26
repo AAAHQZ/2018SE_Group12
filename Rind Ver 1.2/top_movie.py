@@ -1,4 +1,5 @@
-from Creat_Wordcloud import pick_data, draw_wordcloud
+# 词云
+from SE12_Visual import WordCloud
 from docx import Document
 from docx.shared import Inches
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -84,11 +85,9 @@ class TopMovie(object):
 	
     def on_click(self,dialog):
         
-        data = pick_data(self.spinBox.value(), self.spinBox_2.value())
-        draw_wordcloud(data, self.spinBox_2.value())
-
+        WordCloud(self.spinBox.value(), self.spinBox_2.value())
         pwd = os.getcwd()
-        url_string=os.path.abspath('WordCloud.html')
+        url_string=os.path.abspath('./SE12_Cache/WordCloud.html')
         self.label_result.load(QUrl.fromLocalFile(url_string))
 
     def cut_image(self, dialog):

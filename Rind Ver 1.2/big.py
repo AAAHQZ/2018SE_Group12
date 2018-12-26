@@ -1,10 +1,12 @@
+# Straight Pie
+
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from creat_straight_html import Straight
-from creat_pie_html import pie
+from SE12_Visual import Straight, Pie
 from docx import Document
 from docx.shared import Inches
 import os
@@ -104,13 +106,13 @@ class Big(object):
 
     def on_click(self,dialog):
         Straight(self.spinBox_year.value(), self.spinBox_season.value())
-        pie(self.spinBox_year.value(), self.spinBox_season.value())
+        Pie(self.spinBox_year.value(), self.spinBox_season.value())
 
         pwd = os.getcwd()
-        url_string1=os.path.abspath('Straight.html')
+        url_string1=os.path.abspath('./SE12_Cache/Straight.html')
         self.label_result1.load(QUrl.fromLocalFile(url_string1))
 
-        url_string2=os.path.abspath('Pie.html')
+        url_string2=os.path.abspath('./SE12_Cache/Pie.html')
         self.label_result2.load(QUrl.fromLocalFile(url_string2))
 
     def cut_image1(self, dialog):

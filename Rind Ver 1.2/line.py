@@ -1,5 +1,4 @@
-#from Creat_Line import line
-from creat_line_html import line
+from SE12_Visual import Line as line
 from docx import Document
 from docx.shared import Inches
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -102,7 +101,7 @@ class Line(object):
     def on_click(self,dialog):
         line(self.spinBox_year.value(), self.spinBox_year_2.value(),self.spinBox_year_3.value())
         pwd = os.getcwd()
-        url_string=os.path.abspath('Line.html')
+        url_string=os.path.abspath('./SE12_Cache/Line.html')
 
         self.label_result.load(QUrl.fromLocalFile(url_string))
 

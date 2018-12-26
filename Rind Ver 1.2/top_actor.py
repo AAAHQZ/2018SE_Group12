@@ -1,9 +1,10 @@
+# 劳模
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtWebEngineWidgets import QWebEngineView
-from Creat_Actor import draw_top_actor
+from SE12_Visual import Actor
 from docx import Document
 from docx.shared import Inches
 import os
@@ -82,12 +83,12 @@ class TopActor(object):
         self.label_2.setText(_translate("dialog", "排名"))
 		
     def on_click(self,dialog):
-        draw_top_actor(self.spinBox.value(), self.spinBox_2.value())
+        Actor(self.spinBox.value(), self.spinBox_2.value())
         #pixMap = QPixmap("Top_actor.jpg").scaled(self.label_result.width(),self.label_result.height())
         #self.label_result.setPixmap(QPixmap(""))
         #self.label_result.setPixmap(pixMap)
         pwd = os.getcwd()
-        url_string=os.path.abspath('Top_actor.html')
+        url_string=os.path.abspath('./SE12_Cache/Actor.html')
         self.label_result.load(QUrl.fromLocalFile(url_string))
 
     def cut_image(self, dialog):
