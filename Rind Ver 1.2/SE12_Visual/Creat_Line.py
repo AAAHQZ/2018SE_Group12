@@ -50,9 +50,9 @@ def DrawLine(year1, year2, year3, lst):
     columns = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     line=Line("票房变化趋势",width=600,height=450)
     line.add("%s" % year1, columns, lst[0], mark_point=["max","min"])
-    line.add("%s" % year2, columns, lst[1], mark_point=["max", "min"])
-    line.add("%s" % year3, columns, lst[2], mark_point=["max", "min"])
-    line.render(path = "../SE12_Cache/Line.html")
+    # line.add("%s" % year2, columns, lst[1], mark_point=["max", "min"])
+    # line.add("%s" % year3, columns, lst[2], mark_point=["max", "min"])
+    line.render("./SE12_Cache/Line.html")
     return 
 
 def line(year1, year2, year3):

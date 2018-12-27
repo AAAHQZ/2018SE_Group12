@@ -56,7 +56,7 @@ def DrawStraight(year, season, lst):
     season_int = int(season)
     bar=Bar("票房份额",width=600,height=450)
     bar.add("%s,%d" % (year_str,season_int), lst[0], lst[1],mark_point=["max","min"])
-    bar.render("../SE12_Cache/Straight.html")
+    bar.render("./SE12_Cache/Straight.html")
 
 # 饼状图
 def Straight(year, season):

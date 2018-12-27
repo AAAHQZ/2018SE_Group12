@@ -56,7 +56,7 @@ def GetData(year, season):
 def DrawPie(lst):
     image=Pie("", width=600, height=450)
     image.add("", lst[0], lst[1], is_label_show=True)
-    image.render(path = "../SE12_Cache/Pie.html")
+    image.render("./SE12_Cache/Pie.html")
 
     
 # 饼状图

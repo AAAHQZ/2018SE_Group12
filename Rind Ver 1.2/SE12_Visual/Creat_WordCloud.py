@@ -46,7 +46,7 @@ def DrawWordCloud(data,num):
     wordcloud = WCD(width=725, height=530)
         
     wordcloud.add('wordcloud', keylist, valuelist, word_size_range=[13*(20/num)**0.5,26*(1+0.02*num)*(20/num)**0.5],rotate_step=36.4)
-    wordcloud.render(path="../SE12_Cache/WordCloud.html")
+    wordcloud.render(path="./SE12_Cache/WordCloud.html")
 
 def WordCloud(year, num):
     # try:

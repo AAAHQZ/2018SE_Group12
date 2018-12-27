@@ -43,7 +43,7 @@ def GetData(year, number):
 def DrawActor(year, number, lst):
     bar = Bar("劳模演员",width=600,height=450)
     bar.add("%s,%d" % (year,number), lst[0], lst[1], mark_point=["max","min"])
-    bar.render(path="../SE12_Cache/Actor.html")
+    bar.render(path="./SE12_Cache/Actor.html")
 
 # 绘制劳模演员
 def Actor(year, number):
