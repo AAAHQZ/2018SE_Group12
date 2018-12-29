@@ -9,25 +9,12 @@ if __name__ == '__main__':
 else:
     from .baseCrawler import *
 
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-# pip3 install fontTools
-# from fontTools.ttLib import TTFont
-
-from .baseCrawler import baseCrawler
-from .wrappedSQL import wrappedSQL
-
-=======
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
 
 
 class maoyanCrawler(baseCrawler):
     """
     猫眼爬虫
     """ 
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-    # 测试
-=======
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
     isUnit = 1
     csvdatas = [['name', 'boxoffice', 'Unit', 'Director', 'genre', 'date', 'actor'],]
     urlList = []
@@ -88,10 +75,6 @@ class maoyanCrawler(baseCrawler):
         """
         根据urlList获取电影数据
         """
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-        # 正式版需要修改title
-=======
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
         args={'title':"data",
         'Movie':"", 
         'BoxOffice':"", 
@@ -139,55 +122,24 @@ class maoyanCrawler(baseCrawler):
             actor = re.findall(r"<p class=\"p-item-name ellipsis-1\">(.*)</p>",self.newdata)
             actor = set(actor[1:])
             args['Actor'] = ','.join(actor)
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-
-            # 是否进行单位换算
-            if self.isUnit == 1:
-                if args['Unit'] == "亿":
-                    num = float(args['BoxOffice'])
-                    num = num*10000
-                    args['BoxOffice'] = str(num)
-                    args['Unit'] = "万"
-            # 测试
-            
-
-            temp = [args['Movie'], str(int(float(args['BoxOffice']))), args['Unit'], args['Director'], args['Category'], args['Date'], args['Actor']]
-            self.csvdatas.append(temp)
-            print(temp)
-=======
             # 缓存数据
             temp = [args['Movie'], str(int(float(args['BoxOffice']))), args['Unit'], args['Director'], args['Category'], args['Date'], args['Actor']]
             self.csvdatas.append(temp)
             # 测试
             if __name__ == "__main__":            
                 print(temp)
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
         return 
 
         def ToCsv(self, filename):
             """
             将csvdatas写入csv文件
             """
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-            # filename = "./test.csv"
-=======
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
             with open(filename, 'w', newline='', encoding = 'UTF-8') as f:
                 writer = csv.writer(f)
                 for row in self.csvdatas:
                     writer.writerow(row)
             return
 
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-    def ToSql(self): 
-        def insert():
-            temp = self.csvdatas.pop(1)
-            # if __name__ == "__main__":
-                # print(temp)
-            tempvalue = "Movie = '"+ temp[0] +"'"
-            print(tempvalue)
-            sel = self.db.SelData(Title=self.table,Value=tempvalue)
-=======
     def ToSql(self):
         def insert():
             # 出队1个数据
@@ -198,7 +150,6 @@ class maoyanCrawler(baseCrawler):
                 print(SQLValue)
             sel = self.db.SelData(Title=self.table,Value=SQLValue)
             # 判断插入或更新
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
             if sel == []:
                 self.db.InsData(Title=self.table,
                     Movie=str(temp[0]), 
@@ -208,22 +159,11 @@ class maoyanCrawler(baseCrawler):
                     Actor=str(temp[6]),
                     Date=str(temp[5])[0:10])
             else:
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-                # print(sel)
-                self.db.UpdateData(Title=self.table,
-                    Data='BoxOffice',
-                    NewData=temp[1],
-                    Value=tempvalue)
-
-            return
-
-=======
                 self.db.UpdateData(Title=self.table,
                     Data='BoxOffice',
                     NewData=temp[1],
                     Value=SQLValue)
             return
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
         while len(self.csvdatas)>1:
             insert()
         return
@@ -234,28 +174,17 @@ class maoyanCrawler(baseCrawler):
         self.db.CreateTable(Title=self.table)
         return
     
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-=======
     # 测试
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
     def printSql(self):
         temp = self.db.execute("UPDATE data SET BoxOffice = 12.60 WHERE Movie = '无双'")
         for col in temp:
             print(col)
 
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-def MovieCrawler(fromYear, fromMonth, toYear, toMonth):
-    isUnit = 1
-    url = "https://piaofang.maoyan.com"
-    maoyan = maoyanCrawler(url)
-    maoyan.InitSql('movie.db', 'data')
-=======
 def MovieCrawler(fromYear, fromMonth, toYear, toMonth, dbpath="../SE12_Data/movie.db"):
     isUnit = 1
     url = "https://piaofang.maoyan.com"
     maoyan = maoyanCrawler(url)
     maoyan.InitSql(dbpath, 'data')
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
     maoyan.GetReq()
     yearNum = abs(toYear - fromYear)
     # monthNum = (toMonth - fromMonth)
@@ -267,38 +196,6 @@ def MovieCrawler(fromYear, fromMonth, toYear, toMonth, dbpath="../SE12_Data/movi
             maoyan.UrlParser()
             maoyan.DataParser()
             if (year==fromYear and month==fromMonth):
-<<<<<<< HEAD:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
-                print("INS~~~")
-                maoyan.ToSql()
-                maoyan.printSql()
-                return
-            month = month - 1
-        month = 12
-    return 1
-
-if __name__ == "__main__":
-    MovieCrawler(2018, 2, 2018, 2)
-    # url = "https://piaofang.maoyan.com"
-    # maoyan = maoyanCrawler(url)
-    # maoyan.InitSql('movie.db', 'data')
-    # maoyan.printSql()
-
-
-    # isUnit = 1
-    # url = "https://piaofang.maoyan.com"
-    # maoyan = maoyanCrawler(url)
-    # maoyan.GetReq()
-    # # maoyan.DisplayData()
-    # # maoyan.GetTranslator()
-    # for i in range(1):
-    #     for j in range(3):
-    #         year = 2018-i
-    #         month = 12-j
-    #         maoyan.SearchDate(str(year),str(month), '')
-    #         maoyan.UrlParser()
-    #         maoyan.DataParser()
-    # maoyan.ToCsv("./test.csv")
-=======
                 # 测试
                 if __name__ == "__main__":            
                     print("INS~~~")
@@ -312,4 +209,3 @@ if __name__ == "__main__":
 if __name__ == "__main__":
     MovieCrawler(2018, 12, 2018, 12)
  
->>>>>>> Huangquanzhe:Rind Ver 1.2/SE12_Crawler/maoyanCrawler.py
