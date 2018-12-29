@@ -2,6 +2,7 @@ import sys
 import os
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore, QtGui, QtWidgets
+<<<<<<< HEAD
 from big import Big
 from line import Line
 from top_actor import TopActor
@@ -13,6 +14,9 @@ from choice import Choice
 from sign import sign_up,log_in
 from crawler import Crawler
 
+=======
+from SE12_GUI import *
+>>>>>>> Huangquanzhe
 
 '''class MyMainWindow(QMainWindow, Ui_MainWindow):
 	def __init__(self, parent = None):
